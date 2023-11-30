@@ -27,3 +27,11 @@ jobs:
           ./setup_sdk
           cd build/ ; make
         shell: bash
+
+      - name: Save Artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: build-artifact
+          path: |
+            ./build/*.uf2
+            ./build/*.elf
