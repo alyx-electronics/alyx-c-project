@@ -14,6 +14,7 @@ set(DEMO_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/demo")
 # initialize pico-sdk from GIT
 # (note this can come from environment, CMake cache etc)
 set(PICO_SDK_FETCH_FROM_GIT on)
+set(ALYX_HEADER_FETCH_FROM_GIT on)
 
 # pico_sdk_import.cmake is a single file copied from this SDK
 # note: this must happen before project()
