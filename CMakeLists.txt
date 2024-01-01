@@ -20,6 +20,9 @@ set(PICO_SDK_FETCH_FROM_GIT on)
 include(pico_sdk_import.cmake)
 include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
 
+# Alyx C Headers
+include(alyx_headers_import.cmake)
+
 # name of the Project
 project(${PROJECT_NAME})
 
