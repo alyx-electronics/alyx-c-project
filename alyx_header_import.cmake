@@ -6,55 +6,55 @@ endif ()
 # TO DO: 
 # Change Variable names
 # Change Repo details
-if (DEFINED ENV{PICO_EXTRAS_FETCH_FROM_GIT} AND (NOT PICO_EXTRAS_FETCH_FROM_GIT))
-    set(PICO_EXTRAS_FETCH_FROM_GIT $ENV{PICO_EXTRAS_FETCH_FROM_GIT})
-    message("Using PICO_EXTRAS_FETCH_FROM_GIT from environment ('${PICO_EXTRAS_FETCH_FROM_GIT}')")
+if (DEFINED ENV{ALYX_HEADER_FETCH_FROM_GIT} AND (NOT ALYX_HEADER_FETCH_FROM_GIT))
+    set(ALYX_HEADER_FETCH_FROM_GIT $ENV{ALYX_HEADER_FETCH_FROM_GIT})
+    message("Using ALYX_HEADER_FETCH_FROM_GIT from environment ('${ALYX_HEADER_FETCH_FROM_GIT}')")
 endif ()
 
-if (DEFINED ENV{PICO_EXTRAS_FETCH_FROM_GIT_PATH} AND (NOT PICO_EXTRAS_FETCH_FROM_GIT_PATH))
-    set(PICO_EXTRAS_FETCH_FROM_GIT_PATH $ENV{PICO_EXTRAS_FETCH_FROM_GIT_PATH})
-    message("Using PICO_EXTRAS_FETCH_FROM_GIT_PATH from environment ('${PICO_EXTRAS_FETCH_FROM_GIT_PATH}')")
+if (DEFINED ENV{ALYX_HEADER_FETCH_FROM_GIT_PATH} AND (NOT ALYX_HEADER_FETCH_FROM_GIT_PATH))
+    set(ALYX_HEADER_FETCH_FROM_GIT_PATH $ENV{ALYX_HEADER_FETCH_FROM_GIT_PATH})
+    message("Using ALYX_HEADER_FETCH_FROM_GIT_PATH from environment ('${ALYX_HEADER_FETCH_FROM_GIT_PATH}')")
 endif ()
 
-if (NOT PICO_EXTRAS_PATH)
-    if (PICO_EXTRAS_FETCH_FROM_GIT)
+if (NOT ALYX_HEADER_PATH)
+    if (ALYX_HEADER_FETCH_FROM_GIT)
         include(FetchContent)
         set(FETCHCONTENT_BASE_DIR_SAVE ${FETCHCONTENT_BASE_DIR})
-        if (PICO_EXTRAS_FETCH_FROM_GIT_PATH)
-            get_filename_component(FETCHCONTENT_BASE_DIR "${PICO_EXTRAS_FETCH_FROM_GIT_PATH}" REALPATH BASE_DIR "${CMAKE_SOURCE_DIR}")
+        if (ALYX_HEADER_FETCH_FROM_GIT_PATH)
+            get_filename_component(FETCHCONTENT_BASE_DIR "${ALYX_HEADER_FETCH_FROM_GIT_PATH}" REALPATH BASE_DIR "${CMAKE_SOURCE_DIR}")
         endif ()
         FetchContent_Declare(
-                pico_extras
-                GIT_REPOSITORY https://github.com/raspberrypi/pico-extras
-                GIT_TAG master
+                alyx_header
+                GIT_REPOSITORY https://github.com/alyx-electronics/alyx-c-headers.git
+                GIT_TAG main
         )
-        if (NOT pico_extras)
+        if (NOT alyx_header)
             message("Downloading Raspberry Pi Pico Extras")
-            FetchContent_Populate(pico_extras)
-            set(PICO_EXTRAS_PATH ${pico_extras_SOURCE_DIR})
+            FetchContent_Populate(alyx_header)
+            set(ALYX_HEADER_PATH ${alyx_header_SOURCE_DIR})
         endif ()
         set(FETCHCONTENT_BASE_DIR ${FETCHCONTENT_BASE_DIR_SAVE})
     else ()
-        if (PICO_SDK_PATH AND EXISTS "${PICO_SDK_PATH}/../pico-extras")
-            set(PICO_EXTRAS_PATH ${PICO_SDK_PATH}/../pico-extras)
-            message("Defaulting PICO_EXTRAS_PATH as sibling of PICO_SDK_PATH: ${PICO_EXTRAS_PATH}")
+        if (PICO_SDK_PATH AND EXISTS "${PICO_SDK_PATH}/../alyx-c-header")
+            set(ALYX_HEADER_PATH ${PICO_SDK_PATH}/../alyx-c-header)
+            message("Defaulting ALYX_HEADER_PATH as sibling of PICO_SDK_PATH: ${ALYX_HEADER_PATH}")
         else()
             message(FATAL_ERROR
-                    "PICO EXTRAS location was not specified. Please set PICO_EXTRAS_PATH or set PICO_EXTRAS_FETCH_FROM_GIT to on to fetch from git."
+                    "PICO EXTRAS location was not specified. Please set ALYX_HEADER_PATH or set ALYX_HEADER_FETCH_FROM_GIT to on to fetch from git."
                     )
         endif()
     endif ()
 endif ()
 
-set(PICO_EXTRAS_PATH "${PICO_EXTRAS_PATH}" CACHE PATH "Path to the PICO EXTRAS")
-set(PICO_EXTRAS_FETCH_FROM_GIT "${PICO_EXTRAS_FETCH_FROM_GIT}" CACHE BOOL "Set to ON to fetch copy of PICO EXTRAS from git if not otherwise locatable")
-set(PICO_EXTRAS_FETCH_FROM_GIT_PATH "${PICO_EXTRAS_FETCH_FROM_GIT_PATH}" CACHE FILEPATH "location to download EXTRAS")
+set(ALYX_HEADER_PATH "${ALYX_HEADER_PATH}" CACHE PATH "Path to the PICO EXTRAS")
+set(ALYX_HEADER_FETCH_FROM_GIT "${ALYX_HEADER_FETCH_FROM_GIT}" CACHE BOOL "Set to ON to fetch copy of PICO EXTRAS from git if not otherwise locatable")
+set(ALYX_HEADER_FETCH_FROM_GIT_PATH "${ALYX_HEADER_FETCH_FROM_GIT_PATH}" CACHE FILEPATH "location to download EXTRAS")
 
-get_filename_component(PICO_EXTRAS_PATH "${PICO_EXTRAS_PATH}" REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
-if (NOT EXISTS ${PICO_EXTRAS_PATH})
-    message(FATAL_ERROR "Directory '${PICO_EXTRAS_PATH}' not found")
+get_filename_component(ALYX_HEADER_PATH "${ALYX_HEADER_PATH}" REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
+if (NOT EXISTS ${ALYX_HEADER_PATH})
+    message(FATAL_ERROR "Directory '${ALYX_HEADER_PATH}' not found")
 endif ()
 
-set(PICO_EXTRAS_PATH ${PICO_EXTRAS_PATH} CACHE PATH "Path to the PICO EXTRAS" FORCE)
+set(ALYX_HEADER_PATH ${ALYX_HEADER_PATH} CACHE PATH "Path to the PICO EXTRAS" FORCE)
 
-add_subdirectory(${PICO_EXTRAS_PATH} pico_extras)
+add_subdirectory(${ALYX_HEADER_PATH} pico_extras)
